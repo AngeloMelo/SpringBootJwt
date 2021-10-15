@@ -7,6 +7,7 @@ import com.asm.authtest.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
-
 import static com.asm.authtest.security.util.JWTConstants.BEARER;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -54,8 +54,10 @@ public class AuthController
             }
 
             User user = userOptional.get();
+            List<String> roles = user.getRoles();
+
             String url = request.getRequestURL().toString();
-            String accessToken = jwtEncoder.createToken(user.getUserName(), url, getRefreshTokenExpirationAmount(), new ArrayList<>());
+            String accessToken = jwtEncoder.createToken(user.getUserName(), url, getAccessTokenExpirationAmount(), roles);
 
             resultTokens.put("refresh_token", accessToken);
         }
@@ -81,8 +83,8 @@ public class AuthController
     }
 
     //TODO read from a config file?
-    private Long getRefreshTokenExpirationAmount()
+    private Long getAccessTokenExpirationAmount()
     {
-        return 30L * 60 * 1000;
+        return 2L * 60 * 1000;
     }
 }

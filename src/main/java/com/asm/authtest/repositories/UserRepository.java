@@ -4,6 +4,7 @@ import com.asm.authtest.models.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +18,10 @@ public class UserRepository
     public UserRepository(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         users = List.of(
-                new User(1L, "angelo", "asm@google.com", passwordEncoder.encode("1234")),
-                new User(2L, "teste", "teste@google.com", passwordEncoder.encode("1234")),
-                new User(3L, "adm", "adm@google.com", passwordEncoder.encode("1234")),
-                new User(4L, "unidade", "unidade@google.com", passwordEncoder.encode("1234"))
+                new User(1L, "angelo", "asm@google.com", passwordEncoder.encode("1234"), new ArrayList<>()),
+                new User(2L, "teste", "teste@google.com", passwordEncoder.encode("1234"), new ArrayList<>()),
+                new User(3L, "adm", "adm@google.com", passwordEncoder.encode("1234"), new ArrayList<>()),
+                new User(4L, "unidade", "unidade@google.com", passwordEncoder.encode("1234"), new ArrayList<>())
         );
     }
 
