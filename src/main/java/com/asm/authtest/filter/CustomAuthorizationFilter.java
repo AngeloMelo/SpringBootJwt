@@ -32,11 +32,10 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter
     }
 
     @Override
-    @CrossOrigin(origins = "http://localhost:3000")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException
     {
-        if(request.getServletPath().equals("/login") ||
+        if(request.getServletPath().equals("/api/login") ||
            request.getServletPath().equals("/api/token/refresh"))
         {
             filterChain.doFilter(request, response);
